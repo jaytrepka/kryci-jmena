@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import guessData from './guessData.js';
-
+import { decode, encode } from './crypt.js';
 // PATTERN
 // 0 - neutral (gray)
 // 1 - red
@@ -16,7 +16,7 @@ class Board extends Component {
     super(props);
     this.state = {
       data: [],
-      game: 0,
+      game: '',
       pattern: '',
       guessed: [],
     };
@@ -70,14 +70,13 @@ class Board extends Component {
 
   startNew() {
     const pattern = this.shuffle(defaultPattern);
-    const hexString = parseInt(pattern.substring(0, 25)).toString(16);
-    const yourNumber = parseInt(hexString, 16).toString();
-    console.log('pat', pattern, hexString, yourNumber);
-    this.setState({ game: 1, pattern });
+    const game = encode(pattern);
+    this.setState({ game, pattern });
   }
 
-  startSpecial(specialPattern) {
-    this.setState({ game: 1, pattern: specialPattern });
+  startSpecial(game) {
+    const pattern = decode(game);
+    this.setState({ game, pattern });
   }
 
   getClass(index) {
@@ -123,7 +122,7 @@ class Board extends Component {
     return (
       <div>
         <Link to="/">to Home</Link>
-        {game === 0 && <div>
+      {game === '' && <div>
           Load last game:
           Or start new:
           <button onClick={() => this.startNew()}>Start</button>
@@ -132,9 +131,9 @@ class Board extends Component {
           <button onClick={() => this.startSpecial(this.textInput.value)}>Start</button>
         </div>}
 
-        {game > 0 &&
+        {game !== '' &&
           <div>
-            Game no. {pattern}
+            Game no. {game}
             <div className="line">
               {this.getLines()}
             </div>
