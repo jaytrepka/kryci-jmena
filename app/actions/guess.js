@@ -1,30 +1,30 @@
 // @flow
-import type { counterStateType } from '../reducers/counter';
+import type { guessStateType } from '../reducers/guess';
 
 type actionType = {
   type: string
 };
 
-export const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
-export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
+export const INCREMENT_GUESS = 'INCREMENT_GUESS';
+export const DECREMENT_GUESS = 'DECREMENT_GUESS';
 
 export function increment() {
   return {
-    type: INCREMENT_COUNTER
+    type: INCREMENT_GUESS
   };
 }
 
 export function decrement() {
   return {
-    type: DECREMENT_COUNTER
+    type: DECREMENT_GUESS
   };
 }
 
 export function incrementIfOdd() {
-  return (dispatch: (action: actionType) => void, getState: () => counterStateType) => {
-    const { counter } = getState();
+  return (dispatch: (action: actionType) => void, getState: () => guessStateType) => {
+    const { guess } = getState();
 
-    if (counter % 2 === 0) {
+    if (guess % 2 === 0) {
       return;
     }
 
