@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './Help.css';
 import guessData from './guessData.js';
 
 // PATTERN
@@ -98,10 +97,10 @@ class Board extends Component {
 
   getLines() {
     const { data, guessed } = this.state;
-    const { guess } = this.props;
+    const { guess, help } = this.props;
     const rows = [];
     for( let i=0; i < 25; i++) {
-      rows.push(<div className={`${this.getClass(i)} ${guessed[i] ? 'guessed': ''}`} onClick={() => this.setGuessed(i)}>
+      rows.push(<div className={`${this.getClass(i)} ${guessed[i] || help ? 'guessed': ''}`} onClick={() => this.setGuessed(i)}>
         {guess && data[i]}
       </div>);
     }
@@ -124,72 +123,72 @@ class Board extends Component {
     return (
       <div>
         <Link to="/">to Home</Link>
-      { game === 0 && <div>
-        Load last game:
-        Or start new:
-        <button onClick={() => this.startNew()}>Start</button>
-        Or start special:
-        <input ref={(input) => { this.textInput = input; }} type="text" />
-        <button onClick={() => this.startSpecial(this.textInput.value)}>Start</button>
-      </div>}
-      {game > 0 && <div>
+        {game === 0 && <div>
+          Load last game:
+          Or start new:
+          <button onClick={() => this.startNew()}>Start</button>
+          Or start special:
+          <input ref={(input) => { this.textInput = input; }} type="text" />
+          <button onClick={() => this.startSpecial(this.textInput.value)}>Start</button>
+        </div>}
 
-        Game no. {pattern}
-        <div className="line">
-          {this.getLines()}
-        </div>
-        </div>
-      }
-      <style jsx>
-        {
-          `
-          .line {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            max-height: 100vh;
-          }
-          .gray, .red, .black, .blue {
-            width: calc(20% - 25px);
-            height: 15vh;
-            margin: 10px;
-            background: white;
-            color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 25px;
-            border: 1px solid black;
-          }
-          .guessed, .black {
-            border: 1px solid white;
-          }
-          .gray.guessed {
-            background: gray;
-            color: gray;
-          }
-          .red.guessed {
-            background: red;
-            color: red;
-          }
-          .blue.guessed {
-            background: blue;
-            color: blue;
-          }
-          .black.guessed {
-            background: black;
-            color: black;
-          }
-
-          @media (min-width: 900px) {
+        {game > 0 &&
+          <div>
+            Game no. {pattern}
+            <div className="line">
+              {this.getLines()}
+            </div>
+          </div>}
+        <style jsx>
+          {
+            `
             .line {
-              font-size: 36px;
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              height: 90vh;
             }
+            .gray, .red, .black, .blue {
+              width: calc(20% - 25px);
+              height: 14vh;
+              margin: 10px;
+              background: white;
+              color: black;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 25px;
+              border: 1px solid black;
+            }
+            .guessed, .black {
+              border: 1px solid white;
+            }
+            .gray.guessed {
+              background: gray;
+              color: gray;
+            }
+            .red.guessed {
+              background: red;
+              color: red;
+            }
+            .blue.guessed {
+              background: blue;
+              color: blue;
+            }
+            .black.guessed {
+              background: black;
+              color: black;
+            }
+
+            @media (min-width: 900px) {
+              .line {
+                font-size: 36px;
+              }
+            }
+            `
           }
-          `
-        }
-      </style>
-    </div>
+        </style>
+      </div>
     );
   }
 }
