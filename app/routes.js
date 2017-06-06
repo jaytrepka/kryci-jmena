@@ -12,7 +12,7 @@ export default () => (
     <Switch>
       <Route path="/guess" component={GuessPage} />
       <Route path="/help" component={HelpPage} />
-    <Route path="/howto" component={HowToPage} />
+      <Route path="/howto" component={HowToPage} />
       <Route path="/" component={HomePage} />
     </Switch>
   </App>
